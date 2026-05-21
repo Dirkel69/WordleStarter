@@ -28,7 +28,7 @@ public class Wordle {
 
     public static void main(String[] args) {
         new Wordle().run();
-        //System.out.println("Hello, World!");
+        //comment
     }
 
 /* Private instance variables */
