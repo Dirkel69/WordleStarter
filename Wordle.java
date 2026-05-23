@@ -18,7 +18,7 @@ public class Wordle {
         gw = new WordleGWindow();
         gw.addEnterListener((s) -> enterAction(s));
         //choosing word
-        sercretWord = selectRandomWord();
+        secretWord = selectRandomWord();
 
         //milestone1();
 
@@ -41,7 +41,7 @@ public class Wordle {
         //to go down a row:
         //gw.setCurrentRow(gw.getCurrentRow()+1);
         milestone3();
-        gw.showMessage("Word:" + sercretWord);
+        gw.showMessage("Word:" + secretWord);
     }
 
 /* Startup code */
@@ -54,7 +54,7 @@ public class Wordle {
 /* Private instance variables */
 
     private WordleGWindow gw;
-    private String sercretWord;
+    private String secretWord;
     private boolean[] usedSecret;
     private boolean[] used;
 
@@ -72,7 +72,7 @@ public class Wordle {
 
 
     void milestone1(){
-        setWord(0, sercretWord);
+        setWord(0, secretWord);
     }
 
     void milestone2(){
@@ -87,18 +87,23 @@ public class Wordle {
     void milestone3(){
         int row = gw.getCurrentRow();
         String word = getCurrentWord();
-        //make green first
+        //make grey
         for(int col = 0; col < 5; col++){
-            if(sercretWord.substring(col, col+1).equals(word.substring(col, col+1))){
+            gw.setSquareColor(row, col, WordleGWindow.MISSING_COLOR);
+        }
+        //make green
+        for(int col = 0; col < 5; col++){
+            if(secretWord.substring(col, col+1).equals(word.substring(col, col+1))){
                 gw.setSquareColor(row, col, WordleGWindow.CORRECT_COLOR);
             }
         }
         //make yellow
         for(int col = 0; col < 5; col++){
-            if(presentAndNotCorrect(col)){
+            if(toBeYellow(col)){
                 gw.setSquareColor(row, col, WordleGWindow.PRESENT_COLOR);
             }
         }
+
     }
     void test(){
 
@@ -132,14 +137,84 @@ public class Wordle {
         }
         return -1;
     }
-    boolean presentAndNotCorrect(int col){
+    /*boolean toBeYellow(int col){
         int row = gw.getCurrentRow();
         String word = getCurrentWord();
         for(int i = 0; i < 5; i++){
-            if(word.substring(col,col+1).equals(sercretWord.substring(i, i+1)) && !gw.getSquareColor(row, col).equals(WordleGWindow.CORRECT_COLOR)){
+            //System.out.println("Got to here");
+            //if(word.substring(col,col+1).equals(secretWord.substring(i, i+1)) && !gw.getSquareColor(row, col).equals(WordleGWindow.CORRECT_COLOR)){
+            if(word.substring(i,i+1).equals(secretWord.substring(col, col+1)) && countYellow(word.substring(i,i+1)) + countGreen(word.substring(i,i+1)) < countCharacter(word.substring(i, i+1))){
+                System.out.println("Got here");
                 return true;
+
+            }
+            //String debug = "CHAR: "+word.charAt(i)+", Yellow:"+countYellow(word.substring(i,i+1))+", Green:"+countGreen(word.substring(i,i+1))+", CharCount:"+countCharacter(word.substring(i,i+1));
+            //System.out.println("DEBUG: " + debug);
+        }
+        return false;
+    }*/
+    boolean toBeYellow(int column){
+        int row = gw.getCurrentRow();
+        if(gw.getSquareColor(row, column).equals(WordleGWindow.PRESENT_COLOR)){return false;}
+        String currentWord = getCurrentWord();
+        for(int i = 0; i < 5; i++){
+            System.out.println("For character: "+currentWord.charAt(column)+"(COL: "+column+")");
+            if(currentWord.charAt(column) == secretWord.charAt(i)){
+                //appears in both
+                System.out.println("DEBUG 1  :"+currentWord.charAt(column)+"=="+secretWord.charAt(i));
+                if(i != column){
+                    //not in same place
+                    System.out.println("DEBUG 2:  "+i+"!="+column);
+                    if(countYellowInInput(currentWord.substring(column, column+1)) < countInSecretWord(currentWord.substring(column,column+1))){
+                        //yellow of this letter < this letter in secretWord
+                        //TODO: change to yellow&green of this character??
+                        System.out.println("DEBUG 3:  "+countYellowInInput(currentWord.substring(column, column+1))+"<"+countInSecretWord(currentWord.substring(column,column+1)));
+                        return true;
+                    }
+                    /*
+                    what also needed?
+
+                     */
+                }
             }
         }
         return false;
+    }
+    int countYellowInInput(String letter){
+        int n = 0;
+        int row = gw.getCurrentRow();
+        for(int col = 0; col < 5; col++){
+            if(gw.getSquareColor(row, col).equals(WordleGWindow.PRESENT_COLOR) && gw.getSquareLetter(row, col).equals(letter))
+                n++;
+        }
+        return n;
+    }
+    int countInSecretWord(String letter){
+        int n = 0;
+        for(int i = 0; i < 5; i++){
+            if(letter.equals(secretWord.substring(i, i+1))){
+                n++;
+            }
+        }
+        return n;
+    }
+    int countGreen(String letter){
+        int n = 0;
+        int row = gw.getCurrentRow();
+        for(int col = 0; col < 5; col++){
+            if(gw.getSquareColor(row, col).equals(WordleGWindow.CORRECT_COLOR) && gw.getSquareLetter(row, col).equals(letter))
+                n++;
+        }
+        return n;
+    }
+    int countInInput(String letter){
+        int n = 0;
+        String word = getCurrentWord();
+        for(int i = 0; i < 5; i++){
+            if(letter.equals(word.substring(i, i+1))){
+                n++;
+            }
+        }
+        return n;
     }
 }
