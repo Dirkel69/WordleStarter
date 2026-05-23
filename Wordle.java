@@ -75,6 +75,7 @@ public class Wordle {
         setWord(0, secretWord);
     }
 
+    //TODO: Maybe make this boolean, or use this as schematic for something to check validity in the future??
     void milestone2(){
         String word = getCurrentWord();
         if(find(word, WordleDictionary.FIVE_LETTER_WORDS, 0, WordleDictionary.FIVE_LETTER_WORDS.length-1) < 0){
@@ -167,7 +168,7 @@ public class Wordle {
                     System.out.println("DEBUG 2:  "+i+"!="+column);
                     if(countYellowInInput(currentWord.substring(column, column+1)) < countInSecretWord(currentWord.substring(column,column+1))){
                         //yellow of this letter < this letter in secretWord
-                        //TODO: change to yellow&green of this character??
+                        //TODO: change to yellow&green of this character??, check if not already green??
                         System.out.println("DEBUG 3:  "+countYellowInInput(currentWord.substring(column, column+1))+"<"+countInSecretWord(currentWord.substring(column,column+1)));
                         return true;
                     }
