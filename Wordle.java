@@ -134,7 +134,7 @@ public class Wordle {
             return find(target, arr, start, middle - 1);
         }
         else{
-            gw.showMessage("(In find()) ähhh, how did we get here??");
+            System.out.println("(In find()) ähhh, how did we get here??");
         }
         return -1;
     }
@@ -166,11 +166,14 @@ public class Wordle {
                 if(i != column){
                     //not in same place
                     System.out.println("DEBUG 2:  "+i+"!="+column);
-                    if(countYellowInInput(currentWord.substring(column, column+1)) < countInSecretWord(currentWord.substring(column,column+1))){
-                        //yellow of this letter < this letter in secretWord
-                        //TODO: change to yellow&green of this character??, check if not already green??
+                    if(countYellowInInput(currentWord.substring(column, column+1)) + countGreenInInput(currentWord.substring(column, column+1)) < countInSecretWord(currentWord.substring(column,column+1))){
+                        //yellow and green of this letter < this letter in secretWord
                         System.out.println("DEBUG 3:  "+countYellowInInput(currentWord.substring(column, column+1))+"<"+countInSecretWord(currentWord.substring(column,column+1)));
-                        return true;
+                        if(!gw.getSquareColor(row, column).equals(WordleGWindow.CORRECT_COLOR)){
+                            //not green
+                            System.out.println("DEBUG 4: "+gw.getSquareColor(row, column)+" != "+WordleGWindow.CORRECT_COLOR);
+                            return true;
+                        }
                     }
                     /*
                     what also needed?
@@ -185,7 +188,16 @@ public class Wordle {
         int n = 0;
         int row = gw.getCurrentRow();
         for(int col = 0; col < 5; col++){
-            if(gw.getSquareColor(row, col).equals(WordleGWindow.PRESENT_COLOR) && gw.getSquareLetter(row, col).equals(letter))
+            if(gw.getSquareColor(row, col).equals(WordleGWindow.PRESENT_COLOR) && gw.getSquareLetter(row, col).toLowerCase().equals(letter))
+                n++;
+        }
+        return n;
+    }
+    int countGreenInInput(String letter){
+        int n = 0;
+        int row = gw.getCurrentRow();
+        for(int col = 0; col < 5; col++){
+            if(gw.getSquareColor(row, col).equals(WordleGWindow.CORRECT_COLOR) && gw.getSquareLetter(row, col).toLowerCase().equals(letter))
                 n++;
         }
         return n;
