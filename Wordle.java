@@ -37,10 +37,10 @@ public class Wordle {
         gw.showMessage("You have to implement this method.");
         //gw.setSquareColor(1,2, new Color(0,1,1));
         milestone2();
-        test();
+        //test();
         //to go down a row:
         //gw.setCurrentRow(gw.getCurrentRow()+1);
-        milestone3();
+        color();
         gw.showMessage("Word:" + secretWord);
     }
 
@@ -85,26 +85,44 @@ public class Wordle {
             gw.showMessage("Got the milestone running");
         }
     }
-    void milestone3(){
+    void color(){
         int row = gw.getCurrentRow();
         String word = getCurrentWord();
         //make grey
         for(int col = 0; col < 5; col++){
             gw.setSquareColor(row, col, WordleGWindow.MISSING_COLOR);
+            gw.setKeyColor(gw.getSquareLetter(row, col), WordleGWindow.MISSING_COLOR);
         }
         //make green
         for(int col = 0; col < 5; col++){
             if(secretWord.substring(col, col+1).equals(word.substring(col, col+1))){
                 gw.setSquareColor(row, col, WordleGWindow.CORRECT_COLOR);
+                gw.setKeyColor(gw.getSquareLetter(row, col), WordleGWindow.CORRECT_COLOR);
             }
         }
         //make yellow
         for(int col = 0; col < 5; col++){
             if(toBeYellow(col)){
                 gw.setSquareColor(row, col, WordleGWindow.PRESENT_COLOR);
+                if(!gw.getKeyColor(gw.getSquareLetter(row, col)).equals(WordleGWindow.CORRECT_COLOR)){
+                    gw.setKeyColor(gw.getSquareLetter(row, col), WordleGWindow.PRESENT_COLOR);
+                }
             }
         }
 
+    }
+    boolean validWord(){
+        String word = getCurrentWord();
+        if(find(word, WordleDictionary.FIVE_LETTER_WORDS, 0, WordleDictionary.FIVE_LETTER_WORDS.length-1) < 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    boolean shouldContinue(){
+        //did not get the right word yet and still has lines left
+        return false; //for now
     }
     void test(){
 

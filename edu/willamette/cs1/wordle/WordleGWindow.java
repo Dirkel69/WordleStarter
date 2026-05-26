@@ -642,9 +642,9 @@ class WordleCanvas extends JComponent implements KeyListener, MouseListener {
     public static final String ENTER_FONT = "Helvetica Neue-14";
 
     public static final String[][] KEY_LABELS = {
-        { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P" },
-        { "A", "S", "D", "F", "G", "H", "J", "K", "L" },
-        { "ENTER", "Z", "X", "C", "V", "B", "N", "M", "DELETE" }
+        { "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P","Ü", },
+        { "A", "S", "D", "F", "G", "H", "J", "K", "L","Ö" },
+        { "ENTER", "Z", "X", "C", "V", "B", "N", "M","Ä","ẞ", "DELETE" }
     };
 
 /* Derived constants */
