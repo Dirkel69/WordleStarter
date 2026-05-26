@@ -13,8 +13,7 @@ import java.awt.*;
 public class Wordle {
 
     public void run() {
-        used = new boolean[5];
-        usedSecret = new boolean[5];
+
         gw = new WordleGWindow();
         gw.addEnterListener((s) -> enterAction(s));
         //choosing word
@@ -30,18 +29,28 @@ public class Wordle {
  */
 
     public void enterAction(String s) {
-        for(int i = 0; i < 5; i++){
-            used[i] = false;
-            usedSecret[i] = false;
-        }
+
         gw.showMessage("You have to implement this method.");
         //gw.setSquareColor(1,2, new Color(0,1,1));
-        milestone2();
+        //milestone2();
         //test();
         //to go down a row:
         //gw.setCurrentRow(gw.getCurrentRow()+1);
-        color();
+        if(shouldContinue()){ //waehrend des Spiels
+            color();
+        }
+        else{ //verloren oder gewonnen
+            if(getCurrentWord().equals(secretWord)){ //gewonnen
+                gw.showMessage("Du hast mit "+(gw.getCurrentRow()+1)+" Versuchen gewonnen!");
+            }
+            else{ //verloren
+                gw.showMessage(""); //!!
+            }
+        }
+        //TODO: comment this for final version
         gw.showMessage("Word:" + secretWord);
+
+
     }
 
 /* Startup code */
@@ -55,8 +64,6 @@ public class Wordle {
 
     private WordleGWindow gw;
     private String secretWord;
-    private boolean[] usedSecret;
-    private boolean[] used;
 
 /* Some code added by Gilad */
     void setWord(int row, String word){
@@ -122,7 +129,10 @@ public class Wordle {
     }
     boolean shouldContinue(){
         //did not get the right word yet and still has lines left
-        return false; //for now
+        if(!getCurrentWord().equals(secretWord) && gw.getCurrentRow() < 5){
+            return true;
+        }
+        return false;
     }
     void test(){
 
