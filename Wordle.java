@@ -44,7 +44,7 @@ public class Wordle {
                 gw.showMessage("Du hast mit "+(gw.getCurrentRow()+1)+" Versuchen gewonnen!");
             }
             else{ //verloren
-                gw.showMessage(""); //!!
+                gw.showMessage("Diesmal hast du es nicht geschafft. Das Wort war: "+secretWord); //!!
             }
         }
         //TODO: comment this for final version
