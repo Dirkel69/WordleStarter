@@ -37,18 +37,28 @@ public class Wordle {
         //to go down a row:
         //gw.setCurrentRow(gw.getCurrentRow()+1);
         if(shouldContinue()){ //waehrend des Spiels
-            color();
+            //wenn das Wort gilt
+            if(validWord()){
+                color();
+                gw.setCurrentRow(gw.getCurrentRow()+1);
+            }
+            else{
+                gw.showMessage("Wähle ein Wort, das in der Liste ist.");
+            }
+            
         }
         else{ //verloren oder gewonnen
-            if(getCurrentWord().equals(secretWord)){ //gewonnen
+            if(getCurrentWord().toLowerCase().equals(secretWord.toLowerCase())){ //gewonnen
                 gw.showMessage("Du hast mit "+(gw.getCurrentRow()+1)+" Versuchen gewonnen!");
+                color();
             }
             else{ //verloren
-                gw.showMessage("Diesmal hast du es nicht geschafft. Das Wort war: "+secretWord); //!!
+                gw.showMessage("Verloren. Das Wort war: "+secretWord);
+                color();
             }
         }
         //TODO: comment this for final version
-        gw.showMessage("Word:" + secretWord);
+        //gw.showMessage("Word:" + secretWord);
 
 
     }
@@ -102,7 +112,7 @@ public class Wordle {
         }
         //make green
         for(int col = 0; col < 5; col++){
-            if(secretWord.substring(col, col+1).equals(word.substring(col, col+1))){
+            if(secretWord.substring(col, col+1).toLowerCase().equals(word.substring(col, col+1).toLowerCase())){
                 gw.setSquareColor(row, col, WordleGWindow.CORRECT_COLOR);
                 gw.setKeyColor(gw.getSquareLetter(row, col), WordleGWindow.CORRECT_COLOR);
             }
@@ -129,7 +139,7 @@ public class Wordle {
     }
     boolean shouldContinue(){
         //did not get the right word yet and still has lines left
-        if(!getCurrentWord().equals(secretWord) && gw.getCurrentRow() < 5){
+        if(!getCurrentWord().toLowerCase().equals(secretWord.toLowerCase()) && gw.getCurrentRow() < 5){
             return true;
         }
         return false;
@@ -154,11 +164,11 @@ public class Wordle {
     int find(String target, String[] arr, int start, int end){
         int middle = (start + end) / 2;
         if(start > end) {return -1;}
-        if(arr[middle].equals(target)){return middle;}
-        if(arr[middle].compareTo(target) < 0){
+        if(arr[middle].toLowerCase().equals(target.toLowerCase())){return middle;}
+        if(arr[middle].toLowerCase().compareTo(target.toLowerCase()) < 0){
             return find(target, arr, middle + 1, end);
         }
-        else if(arr[middle].compareTo(target) > 0){
+        else if(arr[middle].toLowerCase().compareTo(target.toLowerCase()) > 0){
             return find(target, arr, start, middle - 1);
         }
         else{
@@ -188,7 +198,7 @@ public class Wordle {
         String currentWord = getCurrentWord();
         for(int i = 0; i < 5; i++){
             System.out.println("For character: "+currentWord.charAt(column)+"(COL: "+column+")");
-            if(currentWord.charAt(column) == secretWord.charAt(i)){
+            if(currentWord.toLowerCase().charAt(column) == secretWord.toLowerCase().charAt(i)){
                 //appears in both
                 System.out.println("DEBUG 1  :"+currentWord.charAt(column)+"=="+secretWord.charAt(i));
                 if(i != column){
