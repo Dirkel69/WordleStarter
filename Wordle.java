@@ -30,7 +30,7 @@ public class Wordle {
 
     public void enterAction(String s) {
 
-        gw.showMessage("You have to implement this method.");
+        //gw.showMessage("You have to implement this method.");
         //gw.setSquareColor(1,2, new Color(0,1,1));
         //milestone2();
         //test();
@@ -57,7 +57,6 @@ public class Wordle {
                 color();
             }
         }
-        //TODO: comment this for final version
         //gw.showMessage("Word:" + secretWord);
 
 
@@ -91,8 +90,6 @@ public class Wordle {
     void milestone1(){
         setWord(0, secretWord);
     }
-
-    //TODO: Maybe make this boolean, or use this as schematic for something to check validity in the future??
     void milestone2(){
         String word = getCurrentWord();
         if(find(word, WordleDictionary.FIVE_LETTER_WORDS, 0, WordleDictionary.FIVE_LETTER_WORDS.length-1) < 0){
@@ -172,7 +169,7 @@ public class Wordle {
             return find(target, arr, start, middle - 1);
         }
         else{
-            System.out.println("(In find()) ähhh, how did we get here??");
+            //System.out.println("(In find()) ähhh, how did we get here??");
         }
         return -1;
     }
@@ -197,19 +194,19 @@ public class Wordle {
         if(gw.getSquareColor(row, column).equals(WordleGWindow.PRESENT_COLOR)){return false;}
         String currentWord = getCurrentWord();
         for(int i = 0; i < 5; i++){
-            System.out.println("For character: "+currentWord.charAt(column)+"(COL: "+column+")");
+            //System.out.println("For character: "+currentWord.charAt(column)+"(COL: "+column+")");
             if(currentWord.toLowerCase().charAt(column) == secretWord.toLowerCase().charAt(i)){
                 //appears in both
-                System.out.println("DEBUG 1  :"+currentWord.charAt(column)+"=="+secretWord.charAt(i));
+                //System.out.println("DEBUG 1  :"+currentWord.charAt(column)+"=="+secretWord.charAt(i));
                 if(i != column){
                     //not in same place
-                    System.out.println("DEBUG 2:  "+i+"!="+column);
+                    //System.out.println("DEBUG 2:  "+i+"!="+column);
                     if(countYellowInInput(currentWord.substring(column, column+1)) + countGreenInInput(currentWord.substring(column, column+1)) < countInSecretWord(currentWord.substring(column,column+1))){
                         //yellow and green of this letter < this letter in secretWord
-                        System.out.println("DEBUG 3:  "+countYellowInInput(currentWord.substring(column, column+1))+"<"+countInSecretWord(currentWord.substring(column,column+1)));
+                        //System.out.println("DEBUG 3:  "+countYellowInInput(currentWord.substring(column, column+1))+"<"+countInSecretWord(currentWord.substring(column,column+1)));
                         if(!gw.getSquareColor(row, column).equals(WordleGWindow.CORRECT_COLOR)){
                             //not green
-                            System.out.println("DEBUG 4: "+gw.getSquareColor(row, column)+" != "+WordleGWindow.CORRECT_COLOR);
+                            //System.out.println("DEBUG 4: "+gw.getSquareColor(row, column)+" != "+WordleGWindow.CORRECT_COLOR);
                             return true;
                         }
                     }
