@@ -15,6 +15,7 @@ public class Wordle {
     public void run() {
 
         gw = new WordleGWindow();
+        WordleDictionary.sortWords();
         gw.addEnterListener((s) -> enterAction(s));
         //choosing word
         secretWord = selectRandomWord();
